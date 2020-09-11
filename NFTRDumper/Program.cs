@@ -89,7 +89,7 @@ namespace Kermalis.NFTRDumper
             using (var r = new EndianBinaryReader(File.OpenRead(args[0]), Endianness.BigEndian))
             {
                 // RTFN (Nitro Font Resource)
-                r.ReadString(4); // "RTFN"
+                r.ReadString(4, false); // "RTFN"
                 r.Endianness = r.ReadUInt16() == 0xFFFE ? Endianness.LittleEndian : Endianness.BigEndian;
                 r.ReadUInt16(); // ?
                 r.ReadUInt32(); // File size
@@ -97,7 +97,7 @@ namespace Kermalis.NFTRDumper
                 r.ReadUInt16(); // NumBlocks
 
                 // FINF (Font Info)
-                r.ReadString(4); // "FNIF"
+                r.ReadString(4, false); // "FNIF"
                 uint FNIFSize = r.ReadUInt32();
                 r.ReadByte(); // ?
                 byte height = r.ReadByte(); // Height
@@ -119,7 +119,7 @@ namespace Kermalis.NFTRDumper
 
                 // PLGC (Character Glyphs)
                 r.BaseStream.Position = PLGCOffset - 0x8;
-                r.ReadString(4); // "PLGC"
+                r.ReadString(4, false); // "PLGC"
                 uint PLGCSize = r.ReadUInt32();
                 r.ReadByte(); // Width 4
                 r.ReadByte(); // Height 3
